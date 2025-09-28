@@ -29,7 +29,18 @@ app.post("/api/products", async (req,res) => {
     }
 });
 
-console.log(process.env.MONGO_URI); 
+app.delete("/api/products/:id", async (req,res) => {
+    const {id} = req.params;
+    
+    try {
+      await Product.findByIdAndDelete(id);
+      res.status(200).json({success: true, message:"Product Deleted"});  
+    } catch (error) {
+        res.status(404).json({success: true, message:"Product Not Found"}); 
+        
+    }
+})
+
 
 app.listen(5000, () => { 
     connectDB();
